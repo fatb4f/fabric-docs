@@ -42,6 +42,13 @@ This document maps the platform fabric into concrete components and interfaces.
   - `spawnd` and `meshd` become primary daemon identities
   - `spawnctl` and `meshctl` are thin operator/orchestration clients
 
+Systemd-first unit model for mesh:
+- `meshd.target`: umbrella enable/disable entrypoint.
+- `meshd-daemon.service`: router daemon service.
+- `meshd-source@<name>.service`: one unit per event source.
+- `meshd-profile@<profile>.service`: profile allow/deny marker unit.
+- `meshd-run@<profile>-<eventid>.service`: transient execution units per routed event.
+
 ## Data Components
 - Event sources:
   - `watcher/bin/codex-event-source`

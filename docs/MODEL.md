@@ -44,6 +44,23 @@ Unify `sysops`, `devops`, and `secops` under a single control fabric where `syst
   - approves risk-bearing transitions/actions
   - owns policy and final authority
 
+## systemd-first Control Model (Mesh/Watcher)
+`systemd --user` is the control authority for runtime lifecycle and profile gating.
+
+- Supervisor:
+  - long-running daemon and source units are managed by `systemd`.
+- Enable/disable registry:
+  - profile marker units encode whether a profile is allowed to run.
+- Isolated execution:
+  - each routed profile execution can run in a transient unit for clean status/audit in TUI/systemctl views.
+
+Recommended unit taxonomy:
+- `meshd.target` (compatibility: `watcher.target`)
+- `meshd-daemon.service` (compatibility: `watcher-daemon.service`)
+- `meshd-source@<name>.service` (compatibility: `watcher-source@<name>.service`)
+- `meshd-profile@<profile>.service` (compatibility: `watcher-profile@<profile>.service`)
+- `meshd-run@<profile>-<eventid>.service` transient execution units (compatibility: `watcher-run@...`)
+
 ## State and Transition Model
 - Known good: `BASELINE_OK`, `EXPECTED_DRIFT`
 - Known suspicious: `ANOMALY_OBSERVED`, `ENRICHING`
