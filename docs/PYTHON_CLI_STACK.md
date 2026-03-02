@@ -32,9 +32,16 @@ Positioning:
 - Keep schemas versioned and backwards-compatible (additive in minor versions).
 
 ## 4) Config Model
+- Path substrate:
+  - `xdg-base-dirs` for XDG-conformant config/state/cache discovery
+  - fallback to explicit env/default paths when unavailable
 - File formats:
   - `YAML` via `pyyaml` (operator-facing config)
   - optional `TOML` overlays via `tomllib` (Python 3.11+)
+  - optional `JSON` for machine-generated config payloads
+- Config loading/composition:
+  - `dataconfy` for YAML/JSON loading + environment overlay
+  - `pydantic v2` remains the canonical validation layer after load
 - Env override strategy:
   - either explicit env mapping in loader
   - or standardized `pydantic-settings` for typed env config
@@ -108,7 +115,9 @@ Use two separate channels:
 Runtime:
 - `typer`
 - `rich`
+- `xdg-base-dirs`
 - `pydantic>=2`
+- `dataconfy`
 - `pyyaml`
 - `sdnotify`
 - `pydantic-settings` (if using settings model)
